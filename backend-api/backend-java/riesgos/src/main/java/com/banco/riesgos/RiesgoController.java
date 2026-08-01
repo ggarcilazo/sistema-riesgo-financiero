@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/riesgos")
 public class RiesgoController {
 
+    //NO ES BUENA PRACTICA DEBIDO A QUE SE DEBERI UTILIZAR CONTRUCTORES PARA INYECTAR DEPENDENCIAS, PERO PARA EFECTOS DE ESTE EJEMPLO SE UTILIZA @Autowired
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
