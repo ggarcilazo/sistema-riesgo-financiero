@@ -51,5 +51,5 @@ Para la sustentación ejecutiva del proyecto ante comités directivos (*C-Level*
 
 ---
 ## 👥 4. Colaboradores del Proyecto
-*   **Joaquín Garcilazo** (`ggarcilazo`) - Ingeniero de Datos, Backend Multi-Stack y Automatización RPA.
-*   **Compañero** (`Yunibasu1`) - Científico de Datos, Ingeniero de Machine Learning e Inteligencia Artificial.
+*   **Giovanni Joaquín Garcilazo Lopez** (`ggarcilazo`) - Ingeniero de Datos, Backend Multi-Stack y Automatización RPA.
+*   **Hector Jose Caballero Babilonia** (`Yunibasu1`) - Científico de Datos, Ingeniero de Machine Learning e Inteligencia Artificial.
