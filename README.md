@@ -6,46 +6,8 @@ Este repositorio contiene un ecosistema tecnológico de nivel empresarial diseñ
 
 ## 🏗️ 1. Arquitectura del Sistema y Flujo de Datos
 
-```text
-[ FUENTE DE DATOS: EXCEL / ERP SAP ]
-               │
-               │ (1) Extracción Automática (Ruta Dinámica)
-               ▼
-   ┌───────────────────────┐
-   │ Power Automate Desktop│
-   └───────────┬───────────┘
-               │
-               │ (2) Inserción Masiva (Bucle For Each / INSERT SQL)
-               ▼
-   ┌───────────────────────┐
-   │   SQL Server Express  │ <───┐
-   │    (BancoRiesgos)     │     │
-   └───────────┬───────────┘     │ (5) Actualización de Datos
-               │                 │     (PUT /api/riesgos/actualizar)
-               │ (3) Lectura de  │     Muda Estado a 'Evaluado por IA'
-               │     Registros   │
-               ▼                 │
-   ┌───────────────────────┐     │
-   │   API Java (Spring)   │     │
-   │   Puerto Local:8081   │     │
-   └───────────┬───────────┘     │
-               │                 │
-               │ (4) Envío de    │
-               │     Datos para  │
-               │     Evaluación  │
-               ▼                 │
-   ┌───────────────────────┐     │
-   │  Google Colab (Nube)  │     │
-   │  Modelo de ML/XGBoost ├─────┘
-   └───────────────────────┘
-               │
-               │ (6) Consulta del Estado de Crédito Actualizado
-               ▼
-   ┌───────────────────────┐
-   │ API .NET Core (C#)    │ ───► [ Visualización Externa: ]
-   │ Puerto Local:5000     │      [ Tablero de Power BI    ]
-   └───────────────────────┘
-```
+<img width="1024" height="1536" alt="Arquitectura" src="https://github.com/user-attachments/assets/dd88858c-b903-4224-b7af-910171ba4357" />
+
 
 ---
 
