@@ -1,0 +1,37 @@
+Excel.LaunchExcel.LaunchAndOpenUnderExistingProcess Path: $'''%RutaProyecto%\\Reporte_SAP_Creditos.xlsx.''' Visible: True ReadOnly: False UseMachineLocale: False Instance=> ExcelInstance
+Excel.ReadFromExcel.ReadAllCells Instance: ExcelInstance GetCellContentsMode: Excel.GetCellContentsMode.TypedValues FirstLineIsHeader: True RangeValue=> ExcelData
+LOOP FOREACH CurrentItem IN ExcelData
+    Database.ExecuteSqlStatement.ConnectAndExecute ConnectionString: $'''Provider=MSOLEDBSQL.1;Integrated Security=SSPI;Persist Security Info=False;User ID=\"\";Initial Catalog=BancoRiesgos;Data Source=LAP-GIOVANNI-GA;Extended Properties=\"TrustServerCertificate=Yes\";Initial File Name=\"\";Server SPN=\"\";Authentication=\"\";Access Token=\"\"''' Statement: $'''INSERT INTO SolicitudesCredito (ClienteID, IngresosMensuales, Edad, MontoSolicitado, EstadoSAP)
+VALUES (%CurrentItem['ClienteID']%, %CurrentItem['IngresosMensuales']%, %CurrentItem['Edad']%, %CurrentItem['MontoSolicitado']%, \'Cargado Automático\');
+''' Timeout: 30 Result=> QueryResult
+END
+Scripting.RunPowershellScript.RunScript Script: $'''$cred = \"X@gmail.com:CLAVEAPI\"
+$bytes = [System.Text.Encoding]::UTF8.GetBytes($cred)
+$base64 = [Convert]::ToBase64String($bytes).Trim()
+Write-Output $base64''' ScriptOutput=> PowershellOutput
+Text.Trim Text: PowershellOutput TrimOption: Text.TrimOption.Both TrimmedText=> Base64Limpio
+SET Headers TO $'''Authorization: Basic %Base64Limpio%
+X-Atlassian-Token: no-check'''
+Web.InvokeWebService.InvokeWebServicePost Url: $'''https://X.atlassian.net/rest/api/3/issue''' Accept: $'''application/json''' ContentType: $'''application/json''' CustomHeaders: Headers RequestBody: $'''{
+  \"fields\": {
+    \"project\": {
+      \"key\": \"IT\"
+    },
+    \"summary\": \"ALERTA BANCO: Cliente %CurrentItem['ClienteID']% en riesgo critico de impago\",
+    \"description\": {
+      \"type\": \"doc\",
+      \"version\": 1,
+      \"content\": [
+        {
+          \"type\": \"paragraph\",
+          \"content\": [
+            { \"type\": \"text\", \"text\": \"El sistema automatizado ha detectado que este cliente requiere atencion inmediata por parte de la mesa de soporte de riesgos.\" }
+          ]
+        }
+      ]
+    },
+    \"issuetype\": {
+      \"name\": \"Task\"
+    }
+  }
+}''' ConnectionTimeout: 30 FollowRedirection: True ClearCookies: False FailOnErrorStatus: False EncodeRequestBody: False UserAgent: $'''Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.21) Gecko/20100312 Firefox/3.6''' Encoding: Web.Encoding.AutoDetect AcceptUntrustedCertificates: False TrimRequestBody: True ResponseHeaders=> WebServiceResponseHeaders Response=> WebServiceResponse StatusCode=> StatusCode
