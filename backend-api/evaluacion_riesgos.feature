@@ -8,3 +8,4 @@ Característica: Validación automática de Scoring de Riesgo Crediticio
     Entonces la base de datos debe actualizar el registro del ClienteID 100002 con la nueva tasa
     Y el campo EstadoSAP debe cambiar automáticamente al valor 'Evaluado por IA'
     Y la API REST de .NET Core debe responder con un código de estado 200 OK al ser consultada por Power BI
+
